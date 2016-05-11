@@ -1,0 +1,6 @@
+framework module Pods_CNode {
+  umbrella header "Pods-CNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

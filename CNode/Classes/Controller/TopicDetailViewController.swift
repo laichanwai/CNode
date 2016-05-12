@@ -7,18 +7,12 @@
 //
 
 import UIKit
+import WebKit
 import SnapKit
 
-class TopicDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
+class TopicDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, WKNavigationDelegate {
     
-    var topic: TopicModel! {
-        didSet {
-            replyHeights.removeAll()
-            for _ in topic.replies {
-                replyHeights.append(0.0)
-            }
-        }
-    }
+    var topic: TopicModel!
     var replyHeights: [CGFloat] = []
     @IBOutlet weak var scrollView: TopicScrollView!
     
@@ -28,10 +22,23 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // 加载数据
         TopicStorage.loadTopic(topic.id!) { (topic) in
             self.topic = topic
+            self.replyHeights.removeAll()
+            for reply in self.topic.replies {
+                self.replyHeights.append(reply.heightForRow() + 36)
+            }
             self.scrollView.tableView.reloadData()
         }
         
+        // ScrollView
         scrollView.setupViews(topic)
+        
+        // - WebView
+        scrollView.webView.navigationDelegate = self
+        dispatch_async(dispatch_get_global_queue(0, 0)) {
+            self.scrollView.webView.loadHTMLString(self.topic.content!, baseURL: "https://cnodejs.org/".url)
+        }
+        
+        // - TableView
         scrollView.tableView.delegate = self
         scrollView.tableView.dataSource = self
         let nib = UINib(nibName: "CommentCell", bundle: nil)
@@ -59,16 +66,10 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let reply = topic.replies[indexPath.row] as Reply
         cell.authorLabel.text = reply.author?.loginname
         cell.timeLabel.text = TimeUtil.fromNow(NSDate.from(string: reply.createAt!))
-        
-        cell.webView.delegate = self
-        cell.webView.tag = indexPath.row
-        cell.webView.scrollView.bounces = false
-        cell.webView.scrollView.showsVerticalScrollIndicator = false
-        cell.webView.scrollView.showsHorizontalScrollIndicator = false
-        cell.webView.scrollView.scrollEnabled = false
-        cell.webView.loadHTMLString(reply.content!, baseURL: "http://".url)
+        cell.contentLabel.attributedText = reply.markdown
         
         cell.selectionStyle = .None
+        cell.backgroundColor = LIGHTGRAY_COLOR
         return cell
     }
     
@@ -82,18 +83,12 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         print(topic.replies[indexPath.row].content)
     }
     
-    // MARK: --UIWebViewDeleagte
-    var count = 1
-    func webViewDidFinishLoad(webView: UIWebView) {
-        if replyHeights[webView.tag] > 0.0 {
-            return
-        }
-        let height = CGFloat(Double(webView.stringByEvaluatingJavaScriptFromString("document.body.scrollHeight")!)!)
-        webView.snp_updateConstraints { (make) in
-            make.height.greaterThanOrEqualTo(height)
-        }
-        replyHeights[webView.tag] = height + 36 + 15 + 15
-        scrollView.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
-        scrollView.layoutIfNeeded()
+    // MARK: --WKNavigationDelegate
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+//        dispatch_async(dispatch_get_main_queue()) {
+            scrollView.webView.height = webView.scrollView.contentSize.height
+            scrollView.layoutIfNeeded()
+//        }
+        print("didFinishNavigation")
     }
 }

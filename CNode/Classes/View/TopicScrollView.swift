@@ -7,18 +7,19 @@
 //
 
 import UIKit
+import WebKit
 import Kingfisher
 
 private let MARGING: CGFloat = 15.0
 private let PADDING: CGFloat = 5.0
 private let WIDTH: CGFloat = MAINSCREEN_SIZE.width - 2 * MARGING
-class TopicScrollView: UIScrollView, UIWebViewDelegate {
+class TopicScrollView: UIScrollView, WKNavigationDelegate {
     
     var titleLabel: UILabel!
     var avatarView: UIImageView!
     var authorLabel: UILabel!
     var timeLabel: UILabel!
-    var webView: UIWebView!
+    var webView: WKWebView!
     var tableView: UITableView!
     
     override func layoutIfNeeded() {
@@ -58,9 +59,7 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
         timeLabel.textColor = DRAKGRAY_COLOR
         addSubview(timeLabel)
         
-        webView = UIWebView(frame: CGRectMake(MARGING, avatarView.bottom + PADDING, WIDTH, MAINSCREEN_SIZE.height))
-        webView.loadHTMLString(topic.content!, baseURL: "http://".url)
-        webView.delegate = self
+        webView = WKWebView(frame: CGRectMake(MARGING, avatarView.bottom + MARGING, WIDTH, MAINSCREEN_SIZE.height))
         webView.scrollView.bounces = false
         webView.scrollView.showsVerticalScrollIndicator = false
         webView.scrollView.showsHorizontalScrollIndicator = false
@@ -72,8 +71,7 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
         addSubview(tableView)
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
-    
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         webView.height = webView.scrollView.contentSize.height
         layoutIfNeeded()
     }

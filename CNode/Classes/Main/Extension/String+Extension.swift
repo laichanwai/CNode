@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftyDown
 
 extension String {
     
@@ -37,4 +38,10 @@ extension String {
 //            documentAttributes: nil,
 //            error: nil)!
 //    }
+    
+    var markDown2AttributedString: NSAttributedString {
+        
+        let md = MarkdownParser()
+        return md.convert(self)
+    }
 }

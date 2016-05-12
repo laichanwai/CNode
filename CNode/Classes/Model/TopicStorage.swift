@@ -61,7 +61,7 @@ class TopicStorage: NSObject {
     func loadTopic(topicID: String, finish: (TopicModel?) -> ()) {
         let url = "https://cnodejs.org/api/v1/topic/\(topicID)"
         
-        Alamofire.request(.GET, url).responseSwiftyJSON( { (_, _, json, _) in
+        Alamofire.request(.GET, url, parameters: ["mdrender" : "false"]).responseSwiftyJSON( { (_, _, json, _) in
             let data = json["data"]
             let topic = TopicModel(json: data)
             finish(topic)

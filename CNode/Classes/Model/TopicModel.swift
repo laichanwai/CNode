@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import SwiftyJSON
 
 class Author: NSObject {
@@ -20,6 +21,8 @@ class Reply: NSObject {
     var content: String?
     var ups: [String]?
     var createAt: String?
+    
+    var markdown: NSAttributedString?
 }
 
 class TopicModel: NSObject {
@@ -53,11 +56,22 @@ extension Reply {
         self.init()
         
         id       = json["id"].string
-        content  = TopicModel.htmlWrapContent(json["content"].string!)
-//        content = json["content"].string
+//        content  = TopicModel.htmlWrapContent(json["content"].string!)
+        content  = json["content"].string
         ups      = json["ups"].arrayObject as? [String]
         createAt = TopicModel.timeFromString(json["create_at"].string!)
         author   = Author(json: json["author"])
+    }
+    
+    func heightForRow() -> CGFloat {
+        
+        markdown = content?.markDown2AttributedString
+        let textView: UITextView = UITextView(frame: CGRectZero)
+        textView.width = MAINSCREEN_SIZE.width - 30
+        textView.attributedText = markdown
+        
+        markdown?.size()
+        return textView.contentSize.height
     }
 }
 

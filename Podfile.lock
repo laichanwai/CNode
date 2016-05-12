@@ -7,6 +7,7 @@ PODS:
   - PKHUD (3.1.0)
   - SnapKit (0.21.0)
   - SwiftDate (3.0.8)
+  - SwiftyDown (0.0.4)
   - SwiftyJSON (2.3.2)
   - SwiftyMarkdown (0.2.3)
 
@@ -19,6 +20,7 @@ DEPENDENCIES:
   - PKHUD
   - SnapKit
   - SwiftDate
+  - SwiftyDown
   - SwiftyJSON
   - SwiftyMarkdown
 
@@ -31,9 +33,10 @@ SPEC CHECKSUMS:
   PKHUD: 4167eccdb1b3a892fd80ce2b51cb6ba412a889ab
   SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
   SwiftDate: 971f8b9394f664f2226b9c3ab64e801a7291c612
+  SwiftyDown: 2b8f1ff2907bca209ccb95dddef74129a909fae5
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   SwiftyMarkdown: 62920e177bbd441f2e4427e164e1674b1be46b39
 
-PODFILE CHECKSUM: f65a69f88744d3faf575c9c782b44b4ee5f73d94
+PODFILE CHECKSUM: 1aa4e05b9ed3cd764e7e95b9281c410e142c086a
 
 COCOAPODS: 1.0.0.beta.4

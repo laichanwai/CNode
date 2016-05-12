@@ -92,6 +92,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$CONFIGURATION_BUILD_DIR/PKHUD/PKHUD.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SnapKit/SnapKit.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SwiftDate/SwiftDate.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SwiftyDown/SwiftyDown.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SwiftyJSON/SwiftyJSON.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SwiftyMarkdown/SwiftyMarkdown.framework"
 fi
@@ -104,6 +105,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$CONFIGURATION_BUILD_DIR/PKHUD/PKHUD.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SnapKit/SnapKit.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SwiftDate/SwiftDate.framework"
+  install_framework "$CONFIGURATION_BUILD_DIR/SwiftyDown/SwiftyDown.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SwiftyJSON/SwiftyJSON.framework"
   install_framework "$CONFIGURATION_BUILD_DIR/SwiftyMarkdown/SwiftyMarkdown.framework"
 fi

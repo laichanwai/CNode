@@ -41,7 +41,7 @@ extension Author {
     convenience init(json: JSON) {
         self.init()
         
-        loginname = json["loginname"].string
+        loginname  = json["loginname"].string
         if let url = json["avatar_url"].string {
             avatarUrl = url.hasPrefix("//") ? "http:" + url : url
         }
@@ -52,12 +52,12 @@ extension Reply {
     convenience init(json: JSON) {
         self.init()
         
-        id = json["id"].string
-//        content = TopicModel.htmlWrapContent(json["content"].string!)
-        content = json["content"].string
-        ups = json["ups"].arrayObject as? [String]
+        id       = json["id"].string
+        content  = TopicModel.htmlWrapContent(json["content"].string!)
+//        content = json["content"].string
+        ups      = json["ups"].arrayObject as? [String]
         createAt = TopicModel.timeFromString(json["create_at"].string!)
-        author = Author(json: json["author"])
+        author   = Author(json: json["author"])
     }
 }
 
@@ -65,16 +65,16 @@ extension TopicModel {
     convenience init(json: JSON) {
         self.init()
         
-        id        = json["id"].string
-        authorId  = json["author_id"].string
-        tab       = json["tab"].string
-        content   = TopicModel.htmlWrapContent(json["content"].string!)
-        title     = json["title"].string
-        createAt  = TopicModel.timeFromString(json["create_at"].string!)
-        lastTime  = TopicModel.timeFromString(json["last_reply_at"].string!)
-        isGood    = json["good"].bool
-        isTop     = json["top"].bool
-        author    = Author(json: json["author"])
+        id         = json["id"].string
+        authorId   = json["author_id"].string
+        tab        = json["tab"].string
+        content    = TopicModel.htmlWrapContent(json["content"].string!)
+        title      = json["title"].string
+        createAt   = TopicModel.timeFromString(json["create_at"].string!)
+        lastTime   = TopicModel.timeFromString(json["last_reply_at"].string!)
+        isGood     = json["good"].bool
+        isTop      = json["top"].bool
+        author     = Author(json: json["author"])
         replyCount = json["reply_count"].int
         for (_, replyJSON): (String, JSON) in json["replies"] {
             replies.append(Reply(json: replyJSON))
@@ -89,7 +89,12 @@ extension TopicModel {
     }
     
     class func htmlWrapContent(content: String) -> String {
-        return "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"initial-scale=1, user-scalable=no, width=device-width\" /><style>html, body, div, p, img {width: 100%;word-break: break-all;word-wrap: break-word;} html, body { margin: 0; }</style></head><body>" + content + "</body></html>"
+        let html = "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"initial-scale=1, user-scalable=no, width=device-width\" /><style>html, body, div, p, img {width: 100%;word-break: break-all;word-wrap: break-word;} html, body { margin: 0; }</style></head><body>" + content + "</body></html>"
+        return html.stringByReplacingOccurrencesOfString("\n", withString: "<br />").stringByReplacingOccurrencesOfString("<p>", withString: "").stringByReplacingOccurrencesOfString("</p>", withString: "")
+        
+//        let html = "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"initial-scale=1, user-scalable=no, width=device-width\" /><style>html, body, div, p, img {width: 100%;word-break: break-all;word-wrap: break-word;} html, body { margin: 0; } </style></head><body>" + content + "</body></html>"
+//        let partten = /[(<p>)(<\/p>)(\n)]/
+//        return html
     }
 }
 

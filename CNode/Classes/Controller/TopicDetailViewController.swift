@@ -66,7 +66,7 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         cell.webView.scrollView.showsVerticalScrollIndicator = false
         cell.webView.scrollView.showsHorizontalScrollIndicator = false
         cell.webView.scrollView.scrollEnabled = false
-        cell.webView.loadHTMLString(reply.content!, baseURL: nil)
+        cell.webView.loadHTMLString(reply.content!, baseURL: "http://".url)
         
         cell.selectionStyle = .None
         return cell
@@ -88,11 +88,12 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         if replyHeights[webView.tag] > 0.0 {
             return
         }
-        let height = webView.scrollView.contentSize.height + 36 + 15
-        replyHeights[webView.tag] = height
-        
+        let height = CGFloat(Double(webView.stringByEvaluatingJavaScriptFromString("document.body.scrollHeight")!)!)
+        webView.snp_updateConstraints { (make) in
+            make.height.greaterThanOrEqualTo(height)
+        }
+        replyHeights[webView.tag] = height + 36 + 15 + 15
         scrollView.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
-        scrollView.tableView.height += height
         scrollView.layoutIfNeeded()
     }
 }

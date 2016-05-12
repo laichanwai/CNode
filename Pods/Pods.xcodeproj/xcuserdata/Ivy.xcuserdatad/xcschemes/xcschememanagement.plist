@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>KGNAutoLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Kingfisher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -49,15 +54,25 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftyMarkdown.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0DEBBBDF6AA5E873EC90C544FA78DB4D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>115824B7CB2E76E5ACB836A251E79404</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3685CD55031376CA543845BACF38C69F</key>
+		<key>164E4AA75966D32757D4F6DCF72128F9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,12 +82,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>59DEE44C396687536283BEAB7109534B</key>
+		<key>56B53EE51FE28CD96A95907D877F38C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>720B309D026C53F028C05BE06575ADDA</key>
+		<key>5B813359E2D5D7E64E6BA6217B105F12</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6CF3473403DF33A42395259C9FDA059C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,7 +102,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A70B9B63DE92DE1D3E62B384A01AE6E0</key>
+		<key>880A788C0631093F6C673217A79E2447</key>
 		<dict>
 			<key>primary</key>
 			<true/>

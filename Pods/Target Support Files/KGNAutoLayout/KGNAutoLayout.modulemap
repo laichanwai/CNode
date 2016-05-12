@@ -1,0 +1,6 @@
+framework module KGNAutoLayout {
+  umbrella header "KGNAutoLayout-umbrella.h"
+
+  export *
+  module * { export * }
+}

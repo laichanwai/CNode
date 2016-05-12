@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5B813359E2D5D7E64E6BA6217B105F12'
-               BlueprintName = 'SwiftDate'
+               BlueprintIdentifier = '164E4AA75966D32757D4F6DCF72128F9'
+               BlueprintName = 'KGNAutoLayout'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SwiftDate.framework'>
+               BuildableName = 'KGNAutoLayout.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -24,6 +24,7 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
     override func layoutIfNeeded() {
         
         tableView.top = webView.bottom
+        tableView.height = tableView.contentSize.height
         contentSize = CGSizeMake(width, tableView.bottom)
         super.layoutIfNeeded()
     }
@@ -58,7 +59,7 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
         addSubview(timeLabel)
         
         webView = UIWebView(frame: CGRectMake(MARGING, avatarView.bottom + PADDING, WIDTH, MAINSCREEN_SIZE.height))
-        webView.loadHTMLString(topic.content!, baseURL: nil)
+        webView.loadHTMLString(topic.content!, baseURL: "http://".url)
         webView.delegate = self
         webView.scrollView.bounces = false
         webView.scrollView.showsVerticalScrollIndicator = false

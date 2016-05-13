@@ -69,6 +69,7 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
         
         tableView = UITableView(frame: CGRectMake(0, webView.bottom, width, 100), style: .Plain)
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = LIGHTGRAY_COLOR
         addSubview(tableView)
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 
+let WEBVIEW_TOP: CGFloat = 36
 class CommentCell: UITableViewCell {
 
     @IBOutlet weak var authorLabel: UILabel!
@@ -17,10 +18,21 @@ class CommentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+//        authorLabel.left = 15
+//        authorLabel.top = 15
+//        
+//        timeLabel.right = MAINSCREEN_SIZE.width - 15
+//        timeLabel.top = 15
+//        
+//        webView.frame = CGRectMake(15, authorLabel.bottom + 5, MAINSCREEN_SIZE.width - 30, 40)
+        webView.scrollView.bounces = false
+        webView.scrollView.showsVerticalScrollIndicator = false
+        webView.scrollView.scrollEnabled = false
+        webView.opaque = false
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
     }
 }

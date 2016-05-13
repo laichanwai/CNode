@@ -90,7 +90,7 @@ extension TopicModel {
     
     class func htmlWrapContent(content: String) -> String {
         let html = "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"initial-scale=1, user-scalable=no, width=device-width\" /><style>html, body, div, p, img {width: 100%;word-break: break-all;word-wrap: break-word;} html, body { margin: 0; }</style></head><body>" + content + "</body></html>"
-        return html.stringByReplacingOccurrencesOfString("\n", withString: "<br />").stringByReplacingOccurrencesOfString("<p>", withString: "").stringByReplacingOccurrencesOfString("</p>", withString: "")
+        return html.stringByReplacingOccurrencesOfString("\n", withString: "<br />").stringByReplacingOccurrencesOfString("<p>", withString: "").stringByReplacingOccurrencesOfString("</p>", withString: "").stringByReplacingOccurrencesOfString("<br /></div>", withString: "</div>")
         
 //        let html = "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"initial-scale=1, user-scalable=no, width=device-width\" /><style>html, body, div, p, img {width: 100%;word-break: break-all;word-wrap: break-word;} html, body { margin: 0; } </style></head><body>" + content + "</body></html>"
 //        let partten = /[(<p>)(<\/p>)(\n)]/

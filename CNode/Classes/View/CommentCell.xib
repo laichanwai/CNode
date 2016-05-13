@@ -7,11 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="84" id="KGk-i7-Jjw" customClass="CommentCell" customModule="CNode" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="114" id="KGk-i7-Jjw" customClass="CommentCell" customModule="CNode" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="114"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="83.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="113.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="laichanwai" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NL6-Nd-MMe">
@@ -26,19 +26,23 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <webView userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P5j-k0-leS">
-                        <rect key="frame" x="15" y="36" width="290" height="40"/>
-                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                    <webView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P5j-k0-leS">
+                        <rect key="frame" x="15" y="36" width="290" height="67.5"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <dataDetectorType key="dataDetectorTypes"/>
                     </webView>
                 </subviews>
+                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="QA2-j0-dFS" secondAttribute="trailing" constant="15" id="3Kg-67-dU1"/>
                     <constraint firstItem="NL6-Nd-MMe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="57l-Le-TSR"/>
                     <constraint firstItem="NL6-Nd-MMe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="8bI-Yh-JYF"/>
+                    <constraint firstAttribute="bottom" secondItem="P5j-k0-leS" secondAttribute="bottom" constant="10" id="8dz-11-Xxr"/>
                     <constraint firstItem="QA2-j0-dFS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="Emc-KR-cDQ"/>
+                    <constraint firstItem="P5j-k0-leS" firstAttribute="top" secondItem="NL6-Nd-MMe" secondAttribute="bottom" constant="5" id="GVj-GR-Zy4"/>
                     <constraint firstItem="P5j-k0-leS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="H1F-Nw-T38"/>
                     <constraint firstAttribute="trailing" secondItem="P5j-k0-leS" secondAttribute="trailing" constant="15" id="kvv-CA-KWj"/>
-                    <constraint firstItem="P5j-k0-leS" firstAttribute="top" secondItem="NL6-Nd-MMe" secondAttribute="bottom" constant="5" id="mRh-7S-Kvf"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -46,7 +50,7 @@
                 <outlet property="timeLabel" destination="QA2-j0-dFS" id="yCD-wd-OOQ"/>
                 <outlet property="webView" destination="P5j-k0-leS" id="jxD-jc-BXI"/>
             </connections>
-            <point key="canvasLocation" x="367" y="474"/>
+            <point key="canvasLocation" x="367" y="489"/>
         </tableViewCell>
     </objects>
 </document>

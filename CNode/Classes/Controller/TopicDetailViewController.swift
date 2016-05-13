@@ -9,14 +9,13 @@
 import UIKit
 import SnapKit
 
+private let commentLimit = 50
 class TopicDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
     
     var topic: TopicModel! {
         didSet {
             replyHeights.removeAll()
-            for _ in topic.replies {
-                replyHeights.append(0.0)
-            }
+            self.showComments()
         }
     }
     var replyHeights: [CGFloat] = []
@@ -56,19 +55,17 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as! CommentCell
+        cell.selectionStyle = .None
         let reply = topic.replies[indexPath.row] as Reply
+        
         cell.authorLabel.text = reply.author?.loginname
+        
         cell.timeLabel.text = TimeUtil.fromNow(NSDate.from(string: reply.createAt!))
         
-        cell.webView.delegate = self
-        cell.webView.tag = indexPath.row
-        cell.webView.scrollView.bounces = false
-        cell.webView.scrollView.showsVerticalScrollIndicator = false
-        cell.webView.scrollView.showsHorizontalScrollIndicator = false
-        cell.webView.scrollView.scrollEnabled = false
         cell.webView.loadHTMLString(reply.content!, baseURL: "http://".url)
+        cell.webView.tag = indexPath.row
+        cell.webView.delegate = self
         
-        cell.selectionStyle = .None
         return cell
     }
     
@@ -82,18 +79,22 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         print(topic.replies[indexPath.row].content)
     }
     
-    // MARK: --UIWebViewDeleagte
-    var count = 1
+    // MARK: --UIWebView Delegate
     func webViewDidFinishLoad(webView: UIWebView) {
         if replyHeights[webView.tag] > 0.0 {
             return
         }
         let height = CGFloat(Double(webView.stringByEvaluatingJavaScriptFromString("document.body.scrollHeight")!)!)
-        webView.snp_updateConstraints { (make) in
-            make.height.greaterThanOrEqualTo(height)
-        }
-        replyHeights[webView.tag] = height + 36 + 15 + 15
+        replyHeights[webView.tag] = height + WEBVIEW_TOP
         scrollView.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
         scrollView.layoutIfNeeded()
+    }
+    
+    // MARK: - Private
+    func showComments() {
+        let count = replyHeights.count + commentLimit
+        for _ in replyHeights.count..<(count >= topic.replies.count ? topic.replies.count : count)  {
+            replyHeights.append(0.0)
+        }
     }
 }

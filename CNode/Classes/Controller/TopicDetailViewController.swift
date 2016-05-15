@@ -8,19 +8,23 @@
 
 import UIKit
 import SnapKit
+import PKHUD
 
-private let commentLimit = 50
-class TopicDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate {
+private let commentLimit = Int.max
+class TopicDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var topic: TopicModel! {
         didSet {
             replyHeights.removeAll()
-            self.showComments()
+            loadComments()
         }
     }
     var replyHeights: [CGFloat] = []
     @IBOutlet weak var scrollView: TopicScrollView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var loadMoreButton: UIButton!
     
+    // MARK: - Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,12 +33,30 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
             self.topic = topic
             self.scrollView.tableView.reloadData()
         }
-        
+        scrollView.tableView = tableView
+        scrollView.footer = loadMoreButton
         scrollView.setupViews(topic)
-        scrollView.tableView.delegate = self
-        scrollView.tableView.dataSource = self
-        let nib = UINib(nibName: "CommentCell", bundle: nil)
-        scrollView.tableView.registerNib(nib, forCellReuseIdentifier: "CommentCell")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(self.topicCommentWebViewDidFinishLoad(_:)),
+            name: CommentCellWebViewDidFinishLoad,
+            object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(self.topicContentWebViewDidFinishLoad(_:)),
+            name: TopicScrollViewWebViewDidFinishLoad,
+            object: nil)
+        
+        HUD.show(.Progress)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,7 +65,7 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     // MARK: - Delegate
-    // MARK: --TableView DataSource
+    // MARK: -- TableView DataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -55,21 +77,17 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell") as! CommentCell
-        cell.selectionStyle = .None
         let reply = topic.replies[indexPath.row] as Reply
         
         cell.authorLabel.text = reply.author?.loginname
-        
         cell.timeLabel.text = TimeUtil.fromNow(NSDate.from(string: reply.createAt!))
-        
         cell.webView.loadHTMLString(reply.content!, baseURL: "http://".url)
         cell.webView.tag = indexPath.row
-        cell.webView.delegate = self
         
         return cell
     }
     
-    // MARK: --TableView Deleagte
+    // MARK: -- TableView Deleagte
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
         return replyHeights[indexPath.row]
@@ -79,22 +97,67 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         print(topic.replies[indexPath.row].content)
     }
     
-    // MARK: --UIWebView Delegate
-    func webViewDidFinishLoad(webView: UIWebView) {
-        if replyHeights[webView.tag] > 0.0 {
+    // MARK: - Notification
+    var tempIndexPaths: [NSIndexPath] = []
+    var lastCount = 0
+    func topicCommentWebViewDidFinishLoad(noti: NSNotification) {
+        if let cell: CommentCell = noti.object as? CommentCell {
+            if replyHeights[cell.webView.tag] > 0.0 {
+                return
+            }
+            replyHeights[cell.webView.tag] = cell.webViewHeightConstraint.constant + WEBVIEW_TOP
+            let indexPath = NSIndexPath(forRow: cell.webView.tag, inSection: 0)
+            scrollView.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+//            tempIndexPaths.append(indexPath)
+//            print("\(tempIndexPaths.count)   \(lastCount)   \(replyHeights.count)  \(self.topic.replyCount)")
+//            if tempIndexPaths.count >= commentLimit || tempIndexPaths.count + lastCount >= replyHeights.count {
+//                scrollView.tableView.reloadRowsAtIndexPaths(tempIndexPaths, withRowAnimation: .None)
+//                scrollView.updateLayout()
+//                lastCount = tempIndexPaths.count
+//                tempIndexPaths.removeAll()
+//            }
+        }
+    }
+    
+    func topicContentWebViewDidFinishLoad(noti: NSNotification) {
+        print("content load finish")
+        
+        HUD.hide()
+    }
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "tableView.contentSize" {
+            print("change -> \(change)")
+            removeObserver(self, forKeyPath: keyPath!)
+        }
+    }
+    
+    // MARK: - Event Response
+    @IBAction func loadMoreButtonClick(sender: AnyObject) {
+        print("load more comments")
+        let lastIndex = replyHeights.count
+        if !loadComments() {
+            loadMoreButton.setTitle("没有更多了", forState: .Normal)
+            loadMoreButton.enabled = false
             return
         }
-        let height = CGFloat(Double(webView.stringByEvaluatingJavaScriptFromString("document.body.scrollHeight")!)!)
-        replyHeights[webView.tag] = height + WEBVIEW_TOP
-        scrollView.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: webView.tag, inSection: 0)], withRowAnimation: .Automatic)
-        scrollView.layoutIfNeeded()
+        var indexPaths: [NSIndexPath] = []
+        for i in lastIndex..<replyHeights.count {
+            indexPaths.append(NSIndexPath(forRow: i, inSection: 0))
+        }
+        scrollView.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+        scrollView.updateLayout()
     }
     
     // MARK: - Private
-    func showComments() {
+    func loadComments() -> Bool {
+        if replyHeights.count >= topic.replyCount {
+            return false
+        }
         let count = replyHeights.count + commentLimit
-        for _ in replyHeights.count..<(count >= topic.replies.count ? topic.replies.count : count)  {
+        for _ in replyHeights.count..<(count > topic.replies.count ? topic.replies.count : count)  {
             replyHeights.append(0.0)
         }
+        return true
     }
 }

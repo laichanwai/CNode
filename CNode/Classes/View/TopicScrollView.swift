@@ -9,8 +9,9 @@
 import UIKit
 import Kingfisher
 
+let TopicScrollViewWebViewDidFinishLoad = "TopicScrollViewWebViewDidFinishLoad"
 private let MARGING: CGFloat = 15.0
-private let PADDING: CGFloat = 5.0
+private let PADDING: CGFloat = 10.0
 private let WIDTH: CGFloat = MAINSCREEN_SIZE.width - 2 * MARGING
 class TopicScrollView: UIScrollView, UIWebViewDelegate {
     
@@ -20,13 +21,16 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
     var timeLabel: UILabel!
     var webView: UIWebView!
     var tableView: UITableView!
-    
-    override func layoutIfNeeded() {
+    var footer: UIButton!
+
+    func updateLayout() {
         
         tableView.top = webView.bottom
         tableView.height = tableView.contentSize.height
-        contentSize = CGSizeMake(width, tableView.bottom)
-        super.layoutIfNeeded()
+        print("height : \(tableView.height)  contentSize: \(tableView.contentSize)")
+        footer.top = tableView.bottom
+        contentSize = CGSizeMake(width, footer.bottom)
+        layoutIfNeeded()
     }
     
     // MARK: Private
@@ -67,16 +71,21 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
         webView.scrollView.scrollEnabled = false
         addSubview(webView)
         
-        tableView = UITableView(frame: CGRectMake(0, webView.bottom, width, 100), style: .Plain)
-        tableView.tableFooterView = UIView()
+//        tableView = UITableView(frame: CGRectMake(0, webView.bottom, width, 100), style: .Plain)
+        tableView.frame = CGRectMake(0, webView.bottom, width, 100)
         tableView.backgroundColor = LIGHTGRAY_COLOR
+        tableView.tableFooterView = UIView()
         addSubview(tableView)
+        
+        footer.frame = CGRectMake(0, tableView.bottom, width, 44)
+        addSubview(footer)
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
     
         webView.height = webView.scrollView.contentSize.height
-        layoutIfNeeded()
+        updateLayout()
+        NSNotificationCenter.defaultCenter().postNotificationName(TopicScrollViewWebViewDidFinishLoad, object: nil)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

@@ -5,6 +5,11 @@ PODS:
   - KGNAutoLayout (1.0)
   - Kingfisher (2.4.1)
   - PKHUD (3.1.0)
+  - Realm (0.102.1):
+    - Realm/Headers (= 0.102.1)
+  - Realm/Headers (0.102.1)
+  - RealmSwift (0.102.1):
+    - Realm (= 0.102.1)
   - SnapKit (0.21.0)
   - SwiftDate (3.0.8)
   - SwiftyJSON (2.3.2)
@@ -17,6 +22,7 @@ DEPENDENCIES:
   - KGNAutoLayout
   - Kingfisher
   - PKHUD
+  - RealmSwift
   - SnapKit
   - SwiftDate
   - SwiftyJSON
@@ -29,11 +35,13 @@ SPEC CHECKSUMS:
   KGNAutoLayout: 4664e0e67127c5b4c6f6a7b8b189781fe637d039
   Kingfisher: 41aed5b6c1ed8fa98cf6d75283ce89cf7890f517
   PKHUD: 4167eccdb1b3a892fd80ce2b51cb6ba412a889ab
+  Realm: 5254be610db3e5024879684717bf038990bb59ec
+  RealmSwift: 3e24e6bcf56d98ccc134f4909e00839b81a659af
   SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
   SwiftDate: 971f8b9394f664f2226b9c3ab64e801a7291c612
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   SwiftyMarkdown: 62920e177bbd441f2e4427e164e1674b1be46b39
 
-PODFILE CHECKSUM: f65a69f88744d3faf575c9c782b44b4ee5f73d94
+PODFILE CHECKSUM: 57c944395d3d50ccd92ec177855ef16a802926d3
 
 COCOAPODS: 1.0.0.beta.4

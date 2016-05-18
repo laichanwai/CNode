@@ -9,8 +9,8 @@ target 'CNode' do
     pod 'SwiftDate'
     pod 'DGElasticPullToRefresh'
     pod 'Kingfisher'
-#    pod 'Cartography'
     pod 'SnapKit'
     pod 'KGNAutoLayout'
     pod 'SwiftyMarkdown'
+    pod 'RealmSwift'
 end

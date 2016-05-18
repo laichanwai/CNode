@@ -10,9 +10,10 @@ import UIKit
 import BetterSegmentedControl
 import DGElasticPullToRefresh
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+// MARK: - Life Circle
+class MainViewController: UIViewController {
     
-    // MARK: - Property
+    // MARK: Property
     @IBOutlet weak var tableView: UITableView!
     
     let segment = BetterSegmentedControl(
@@ -28,7 +29,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentIndex = 0
     var refreshing = false
     
-    // MARK: - Life Circle
+    // MARK: Life Func
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,9 +59,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     deinit {
         tableView.dg_removePullToRefresh()
     }
+}
+
+// MARK: - UITableView DataSource & Delegate
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
-    // MARK: - Delegate
-    // MARK: --TableView DataSource
+    // MARK: DataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -98,16 +102,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    // MARK: --TableView Delegate
+    // MARK: Delegate
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         // 加载更多
         if topics[currentIndex].count - indexPath.row < 3 {
             loadTopics(refresh: false)
         }
     }
-    
-    // MARK: - Event Response
-    // MARK: --切换分类
+}
+
+// MARK: - Event Response
+extension MainViewController {
+    // MARK: 切换分类
     func segmentValueChange(sender: BetterSegmentedControl) {
         currentIndex = Int(sender.index)
         
@@ -117,14 +123,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.reloadData()
     }
     
-    // MARK: --跳转
+    // MARK: 跳转
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let topicDetailVC = segue.destinationViewController as! TopicDetailViewController
         let indexPath = tableView.indexPathForSelectedRow
         topicDetailVC.topic = topicAt(indexPath!)
     }
+}
+
+// MARK: - Private
+extension MainViewController {
     
-    // MARK: - Private
     func loadTopics(refresh refresh: Bool) {
         
         if refreshing {

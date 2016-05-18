@@ -1,6 +1,0 @@
-framework module SwiftyText {
-  umbrella header "SwiftyText-umbrella.h"
-
-  export *
-  module * { export * }
-}

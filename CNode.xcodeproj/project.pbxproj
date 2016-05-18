@@ -16,7 +16,7 @@
 		CA5DC0801CD08CA000FC253C /* TopicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5DC07F1CD08CA000FC253C /* TopicDetailViewController.swift */; };
 		CA5DC0821CD08CB300FC253C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5DC0811CD08CB300FC253C /* ProfileViewController.swift */; };
 		CA5DC0841CD093FD00FC253C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5DC0831CD093FD00FC253C /* MainViewController.swift */; };
-		CA9DC76C1CE6E558004FB834 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DC76B1CE6E558004FB834 /* HUD.swift */; };
+		CA9DC78C1CE98C44004FB834 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DC78B1CE98C44004FB834 /* ImageCache.swift */; };
 		CAAB77E31CE04EC70003732F /* TopicStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAB77E21CE04EC70003732F /* TopicStorage.swift */; };
 		CAAB77E51CE0544A0003732F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAB77E41CE0544A0003732F /* Constant.swift */; };
 		CAAB77E81CE07C210003732F /* Alamofire-SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAB77E71CE07C210003732F /* Alamofire-SwiftyJSON.swift */; };
@@ -43,7 +43,7 @@
 		CA5DC07F1CD08CA000FC253C /* TopicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailViewController.swift; sourceTree = "<group>"; };
 		CA5DC0811CD08CB300FC253C /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CA5DC0831CD093FD00FC253C /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		CA9DC76B1CE6E558004FB834 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		CA9DC78B1CE98C44004FB834 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		CAAB77E21CE04EC70003732F /* TopicStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicStorage.swift; sourceTree = "<group>"; };
 		CAAB77E41CE0544A0003732F /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		CAAB77E71CE07C210003732F /* Alamofire-SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Alamofire-SwiftyJSON.swift"; sourceTree = "<group>"; };
@@ -154,6 +154,7 @@
 			children = (
 				CA5DC07B1CD08C5700FC253C /* TopicModel.swift */,
 				CAAB77E21CE04EC70003732F /* TopicStorage.swift */,
+				CA9DC78B1CE98C44004FB834 /* ImageCache.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -164,7 +165,6 @@
 				CAAB77F11CE1AF9E0003732F /* TopicCell.swift */,
 				CAAB77FB1CE2FF5E0003732F /* TopicScrollView.swift */,
 				CAAB78011CE329C60003732F /* CommentCell.swift */,
-				CA9DC76B1CE6E558004FB834 /* HUD.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -322,6 +322,7 @@
 			files = (
 				CAAB77F81CE20F560003732F /* NSDate+Extension.swift in Sources */,
 				CAAB77FC1CE2FF5E0003732F /* TopicScrollView.swift in Sources */,
+				CA9DC78C1CE98C44004FB834 /* ImageCache.swift in Sources */,
 				CAAB77EB1CE17CB30003732F /* UIView+Extension.swift in Sources */,
 				CAAB78001CE3217D0003732F /* HTML2String.swift in Sources */,
 				CAAB77FA1CE212CB0003732F /* TimeUtil.swift in Sources */,
@@ -335,7 +336,6 @@
 				CA5DC0801CD08CA000FC253C /* TopicDetailViewController.swift in Sources */,
 				CA5DC07C1CD08C5700FC253C /* TopicModel.swift in Sources */,
 				CA5DC0841CD093FD00FC253C /* MainViewController.swift in Sources */,
-				CA9DC76C1CE6E558004FB834 /* HUD.swift in Sources */,
 				CAAB78031CE329C60003732F /* CommentCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

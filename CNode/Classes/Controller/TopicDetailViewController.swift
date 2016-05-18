@@ -10,8 +10,9 @@ import UIKit
 import SnapKit
 import PKHUD
 
+// MARK: - Life Circle
 private let commentLimit = Int.max
-class TopicDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TopicDetailViewController: UIViewController {
     
     var topic: TopicModel! {
         didSet {
@@ -24,7 +25,6 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var loadMoreButton: UIButton!
     
-    // MARK: - Life Circle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,9 +63,53 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
+
+// MARK: - Notification
+extension TopicDetailViewController {
+    /** (加了 HUD 之后未使用优化)
+     性能优化方案
+     加载完之后才刷新列表
+     */
+//    var tempIndexPaths: [NSIndexPath] = []
+//    var lastCount = 0
+    func topicCommentWebViewDidFinishLoad(noti: NSNotification) {
+        if let cell: CommentCell = noti.object as? CommentCell {
+            if replyHeights[cell.webView.tag] > 0.0 {
+                return
+            }
+            replyHeights[cell.webView.tag] = cell.webViewHeightConstraint.constant + WEBVIEW_TOP
+            let indexPath = NSIndexPath(forRow: cell.webView.tag, inSection: 0)
+            scrollView.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+            //            tempIndexPaths.append(indexPath)
+            //            print("\(tempIndexPaths.count)   \(lastCount)   \(replyHeights.count)  \(self.topic.replyCount)")
+            //            if tempIndexPaths.count >= commentLimit || tempIndexPaths.count + lastCount >= replyHeights.count {
+            //                scrollView.tableView.reloadRowsAtIndexPaths(tempIndexPaths, withRowAnimation: .None)
+            //                scrollView.updateLayout()
+            //                lastCount = tempIndexPaths.count
+            //                tempIndexPaths.removeAll()
+            //            }
+        }
+    }
     
-    // MARK: - Delegate
-    // MARK: -- TableView DataSource
+    func topicContentWebViewDidFinishLoad(noti: NSNotification) {
+        print("content load finish")
+        
+        HUD.hide()
+    }
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "tableView.contentSize" {
+            print("change -> \(change)")
+            removeObserver(self, forKeyPath: keyPath!)
+        }
+    }
+}
+
+// MARK: - UITableView DataSource & Delegate
+extension TopicDetailViewController : UITableViewDataSource, UITableViewDelegate {
+    
+    // MARK: TableView DataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -87,52 +131,20 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
-    // MARK: -- TableView Deleagte
+    // MARK: TableView Deleagte
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-
+        
         return replyHeights[indexPath.row]
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print(topic.replies[indexPath.row].content)
     }
+}
+
+// MARK: - Event Response
+extension TopicDetailViewController {
     
-    // MARK: - Notification
-    var tempIndexPaths: [NSIndexPath] = []
-    var lastCount = 0
-    func topicCommentWebViewDidFinishLoad(noti: NSNotification) {
-        if let cell: CommentCell = noti.object as? CommentCell {
-            if replyHeights[cell.webView.tag] > 0.0 {
-                return
-            }
-            replyHeights[cell.webView.tag] = cell.webViewHeightConstraint.constant + WEBVIEW_TOP
-            let indexPath = NSIndexPath(forRow: cell.webView.tag, inSection: 0)
-            scrollView.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-//            tempIndexPaths.append(indexPath)
-//            print("\(tempIndexPaths.count)   \(lastCount)   \(replyHeights.count)  \(self.topic.replyCount)")
-//            if tempIndexPaths.count >= commentLimit || tempIndexPaths.count + lastCount >= replyHeights.count {
-//                scrollView.tableView.reloadRowsAtIndexPaths(tempIndexPaths, withRowAnimation: .None)
-//                scrollView.updateLayout()
-//                lastCount = tempIndexPaths.count
-//                tempIndexPaths.removeAll()
-//            }
-        }
-    }
-    
-    func topicContentWebViewDidFinishLoad(noti: NSNotification) {
-        print("content load finish")
-        
-        HUD.hide()
-    }
-    
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if keyPath == "tableView.contentSize" {
-            print("change -> \(change)")
-            removeObserver(self, forKeyPath: keyPath!)
-        }
-    }
-    
-    // MARK: - Event Response
     @IBAction func loadMoreButtonClick(sender: AnyObject) {
         print("load more comments")
         let lastIndex = replyHeights.count
@@ -148,8 +160,11 @@ class TopicDetailViewController: UIViewController, UITableViewDataSource, UITabl
         scrollView.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
         scrollView.updateLayout()
     }
+}
+
+// MARK: - Private
+private extension TopicDetailViewController {
     
-    // MARK: - Private
     func loadComments() -> Bool {
         if replyHeights.count >= topic.replyCount {
             return false

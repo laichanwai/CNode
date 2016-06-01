@@ -9,11 +9,8 @@
 import UIKit
 
 extension UIView {
-    
     var x: CGFloat {
-        get {
-            return self.frame.origin.x
-        }
+        get { return self.frame.origin.x }
         set {
             var frame = self.frame
             frame.origin.x = newValue
@@ -21,9 +18,7 @@ extension UIView {
         }
     }
     var y: CGFloat {
-        get {
-            return self.frame.origin.y
-        }
+        get { return self.frame.origin.y }
         set {
             var frame = self.frame
             frame.origin.y = newValue
@@ -31,9 +26,7 @@ extension UIView {
         }
     }
     var width: CGFloat {
-        get {
-            return self.frame.size.width
-        }
+        get { return self.frame.size.width }
         set {
             var frame = self.frame
             frame.size.width = newValue
@@ -41,9 +34,7 @@ extension UIView {
         }
     }
     var height: CGFloat {
-        get {
-            return self.frame.size.height
-        }
+        get { return self.frame.size.height }
         set {
             var frame = self.frame
             frame.size.height = newValue
@@ -51,35 +42,19 @@ extension UIView {
         }
     }
     var top: CGFloat {
-        get {
-            return self.y
-        }
-        set {
-            self.y = newValue
-        }
+        get { return self.y }
+        set { self.y = newValue }
     }
     var bottom: CGFloat {
-        get {
-            return self.y + self.height
-        }
-        set {
-            self.y = newValue - self.height
-        }
+        get { return self.y + self.height }
+        set { self.y = newValue - self.height }
     }
     var left: CGFloat {
-        get {
-            return self.x
-        }
-        set {
-            self.x = newValue
-        }
+        get { return self.x }
+        set { self.x = newValue }
     }
     var right: CGFloat {
-        get {
-            return self.x + self.width
-        }
-        set {
-            self.x = newValue - self.width
-        }
+        get { return self.x + self.width }
+        set { self.x = newValue - self.width }
     }
 }

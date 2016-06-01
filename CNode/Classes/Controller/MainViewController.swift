@@ -10,6 +10,7 @@ import UIKit
 import BetterSegmentedControl
 import DGElasticPullToRefresh
 
+private let show_comment_limit = 5
 // MARK: - Life Circle
 class MainViewController: UIViewController {
     

@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import RealmSwift
 
 class Author: NSObject {
     var avatarUrl: String?
@@ -60,10 +59,6 @@ extension Reply {
         createAt = TopicModel.timeFromString(json["create_at"].string!)
         author   = Author(json: json["author"])
     }
-    
-    override static func primaryKey() -> String? {
-        return "id"
-    }
 }
 
 extension TopicModel {
@@ -97,12 +92,11 @@ extension TopicModel {
         
         
         let html = "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"initial-scale=1, user-scalable=no, width=device-width\" /><style>html, body, div, p, img {width: 100%;word-break: break-all;word-wrap: break-word;} html, body { margin: 0; }</style></head><body>" + content + "</body></html>"
-        return html.stringByReplacingOccurrencesOfString("\n", withString: "<br />").stringByReplacingOccurrencesOfString("<p>", withString: "").stringByReplacingOccurrencesOfString("</p>", withString: "").stringByReplacingOccurrencesOfString("<br /></div>", withString: "</div>")
-//        return content
-    }
-    
-    override static func primaryKey() -> String? {
-        return "id"
+        return html
+            .stringByReplacingOccurrencesOfString("\n", withString: "")
+            .stringByReplacingOccurrencesOfString("<p>", withString: "")
+            .stringByReplacingOccurrencesOfString("</p>", withString: "")
+            .stringByReplacingOccurrencesOfString("<br /></div>", withString: "</div>")
     }
 }
 

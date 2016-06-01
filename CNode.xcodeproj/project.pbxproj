@@ -204,12 +204,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CA5DC0661CD088AC00FC253C /* Build configuration list for PBXNativeTarget "CNode" */;
 			buildPhases = (
-				B50B69053F20216086BE9572 /* Check Pods Manifest.lock */,
+				B50B69053F20216086BE9572 /* 📦 Check Pods Manifest.lock */,
 				CA5DC0501CD088AC00FC253C /* Sources */,
 				CA5DC0511CD088AC00FC253C /* Frameworks */,
 				CA5DC0521CD088AC00FC253C /* Resources */,
-				CF15059ED368EB9BD54628F2 /* Embed Pods Frameworks */,
-				96D796BE892E2DFCC9AF94C0 /* Copy Pods Resources */,
+				CF15059ED368EB9BD54628F2 /* 📦 Embed Pods Frameworks */,
+				96D796BE892E2DFCC9AF94C0 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -268,14 +268,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		96D796BE892E2DFCC9AF94C0 /* Copy Pods Resources */ = {
+		96D796BE892E2DFCC9AF94C0 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,14 +283,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CNode/Pods-CNode-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B50B69053F20216086BE9572 /* Check Pods Manifest.lock */ = {
+		B50B69053F20216086BE9572 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,14 +298,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		CF15059ED368EB9BD54628F2 /* Embed Pods Frameworks */ = {
+		CF15059ED368EB9BD54628F2 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

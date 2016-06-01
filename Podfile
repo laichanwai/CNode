@@ -12,5 +12,4 @@ target 'CNode' do
     pod 'SnapKit'
     pod 'KGNAutoLayout'
     pod 'SwiftyMarkdown'
-    pod 'RealmSwift'
 end

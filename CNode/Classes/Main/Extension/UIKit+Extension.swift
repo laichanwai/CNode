@@ -1,13 +1,50 @@
 //
-//  UIView+Ivy.swift
+//  UIKit+Extension.swift
 //  CNode
 //
-//  Created by Ivy on 16/5/10.
+//  Created by Ivy on 16/6/4.
 //  Copyright © 2016年 Ivy. All rights reserved.
 //
 
 import UIKit
 
+// MARK: - Navigation
+private var _nav_background_image: UIImage?
+private var _nav_shadow_image: UIImage?
+private var _nav_hidden: Bool = false
+extension UINavigationController {
+    
+    func showNavigationBar() {
+        guard _nav_hidden else {
+            return
+        }
+        
+        navigationBar.setBackgroundImage(_nav_background_image, forBarMetrics: .Default)
+        navigationBar.shadowImage = _nav_shadow_image
+        _nav_hidden = !_nav_hidden
+    }
+    
+    func hideNavigationBar() {
+        guard !_nav_hidden else {
+            return
+        }
+        _nav_background_image = navigationBar.backgroundImageForBarMetrics(.Default)
+        navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        _nav_shadow_image = navigationBar.shadowImage
+        navigationBar.shadowImage = UIImage()
+        _nav_hidden = !_nav_hidden
+    }
+}
+
+// MARK: - UIViewController
+extension UIViewController {
+    
+    func addNotification(name: String, selector: Selector) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil);
+    }
+}
+
+// MARK: - UIView
 extension UIView {
     var x: CGFloat {
         get { return self.frame.origin.x }

@@ -128,7 +128,10 @@ extension MainViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let topicDetailVC = segue.destinationViewController as! TopicDetailViewController
         let indexPath = tableView.indexPathForSelectedRow
+//        topicDetailVC.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem()
         topicDetailVC.topic = topicAt(indexPath!)
+        tableView.deselectRowAtIndexPath(indexPath!, animated: true)
     }
 }
 

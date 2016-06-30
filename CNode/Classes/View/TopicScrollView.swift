@@ -21,15 +21,13 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
     var timeLabel: UILabel!
     var webView: UIWebView!
     var tableView: UITableView!
-    var footer: UIButton!
 
     func updateLayout() {
         
         tableView.top = webView.bottom
         tableView.height = tableView.contentSize.height
         print("height : \(tableView.height)  contentSize: \(tableView.contentSize)")
-        footer.top = tableView.bottom
-        contentSize = CGSizeMake(width, footer.bottom)
+        contentSize = CGSizeMake(width, tableView.bottom)
         layoutIfNeeded()
     }
     
@@ -71,13 +69,10 @@ class TopicScrollView: UIScrollView, UIWebViewDelegate {
         webView.scrollView.scrollEnabled = false
         addSubview(webView)
         
-        tableView.frame = CGRectMake(0, webView.bottom, width, 100)
+        tableView.frame = CGRectMake(0, webView.bottom + MARGING, width, 100)
         tableView.backgroundColor = LIGHTGRAY_COLOR
         tableView.tableFooterView = UIView()
         addSubview(tableView)
-        
-        footer.frame = CGRectMake(0, tableView.bottom, width, 44)
-        addSubview(footer)
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {

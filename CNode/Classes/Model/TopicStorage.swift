@@ -25,6 +25,7 @@ enum TopicTab: Int {
     case Job    = 3
 }
 
+private let _cachePath = NSHomeDirectory() + "/Library/Caches"
 private let _instance = TopicStorage()
 class TopicStorage: NSObject {
     
@@ -43,6 +44,16 @@ class TopicStorage: NSObject {
     }
     
     func loadTopics(tab: TopicTab, refresh: Bool, finish:(topics: [TopicModel]?)->()) {
+        
+        if let cache = cacheTopics(tab) {
+            var topics: [TopicModel] = []
+            for (_, topicJSON): (String, JSON) in cache {
+                let topic = TopicModel(json: topicJSON)
+                topics.append(topic)
+            }
+            finish(topics: topics)
+        }
+        
         currentPage[tab.rawValue] = refresh ? 1 : currentPage[tab.rawValue] + 1
         
         let url = "https://cnodejs.org/api/v1/topics?page=\(currentPage[tab.rawValue])&tab=\(TABS_KEYS[tab.rawValue])"
@@ -50,6 +61,9 @@ class TopicStorage: NSObject {
         Alamofire.request(.GET, url).responseSwiftyJSON({ (_, _, json, _) in
             var topics: [TopicModel] = []
             let data = json["data"]
+            
+            self.cachedTopics(data, tab: tab)
+            
             for (_, topicJSON): (String, JSON) in data {
                 let topic = TopicModel(json: topicJSON)
                 topics.append(topic)
@@ -67,4 +81,29 @@ class TopicStorage: NSObject {
             finish(topic)
         })
     }
+    
+    func cacheTopics(tab: TopicTab) -> JSON? {
+        
+        let path = _cachePath + "/\(TABS_KEYS[tab.rawValue])"
+        let cache = try? String(contentsOfFile: path)
+        guard let _cache = cache else {
+            return nil
+        }
+        return JSON(_cache)
+    }
+    
+    func cachedTopics(data: JSON, tab: TopicTab) {
+        
+        let path = _cachePath + "/\(TABS_KEYS[tab.rawValue])"
+//        let cache = NSArray(array: topics.arrayObject!)
+//        cache.writeToURL(path.url, atomically: true)
+        do {
+            try data.stringValue.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+        } catch {
+            print("error")
+        }
+        
+    }
 }
+
+
